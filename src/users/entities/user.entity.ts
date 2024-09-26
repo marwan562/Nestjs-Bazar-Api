@@ -1,4 +1,4 @@
-import { Roles } from 'src/common/enums/user.roles.enum';
+import { Role } from 'src/common/enums/user.roles.enum';
 import {
   Column,
   CreateDateColumn,
@@ -18,10 +18,12 @@ export class UserEntity {
   email: string;
   @Column({ select: false })
   password: string;
-  @Column({ type: 'enum', enum: Roles, array: true, default: [Roles.User] })
-  roles: Roles[];
+  @Column({ type: 'enum', enum: Role, array: true, default: [Role.User] })
+  roles: Role[];
   @CreateDateColumn()
   createdAt: Timestamp;
   @UpdateDateColumn()
   updatedAt: Timestamp;
 }
+
+
