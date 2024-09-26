@@ -12,8 +12,8 @@ export class AuthController {
     return this.authService.signup(body);
   }
 
-  @Post("signin")
+  @Post('signin')
   public async signin(@Body() body: SignInDTO) {
-    return this.authService.signin(body)
+    return this.authService.signin(body);
   }
 }
