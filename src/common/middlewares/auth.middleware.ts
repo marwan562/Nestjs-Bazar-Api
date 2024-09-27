@@ -10,14 +10,20 @@ import 'dotenv/config';
 import { UsersService } from 'src/users/users.service';
 import { UserEntity } from 'src/users/entities/user.entity';
 
-interface CustomRequest extends Request {
-  user?: UserEntity;
+declare global {
+  namespace Express {
+    interface Request {
+      user?: UserEntity;
+    }
+  }
 }
 
 @Injectable()
 class AuthMiddleware implements NestMiddleware {
   constructor(private readonly userService: UsersService) {}
-  async use(req: CustomRequest, _, next: NextFunction) {
+  
+
+  async use(req: Request, _, next: NextFunction) {
     const token = req.headers['authorization']?.split(' ')[1];
 
     if (!token) {

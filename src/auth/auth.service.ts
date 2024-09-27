@@ -52,6 +52,8 @@ export class AuthService {
 
     const token = jwt.sign({ id: newUser.id }, process.env.SECRET_JWT);
 
+    delete newUser.password
+
     return { user: newUser, token };
   }
 
@@ -64,6 +66,8 @@ export class AuthService {
     }
 
     const token = jwt.sign({ id: user.id }, process.env.SECRET_JWT);
+
+    delete user.password
 
     return { user, token };
   }
