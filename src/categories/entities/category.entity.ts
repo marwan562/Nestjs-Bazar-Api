@@ -1,3 +1,4 @@
+import { ProductEntity } from 'src/products/entities/product.entity';
 import { UserEntity } from 'src/users/entities/user.entity';
 import {
   Column,
@@ -31,4 +32,7 @@ export class CategoryEntity {
   @ManyToOne(() => UserEntity, (user) => user.categories)
   @JoinColumn({ name: 'createdBy' })
   createdBy: UserEntity;
+
+  @OneToMany(() => ProductEntity, (product) => product.createdBy)
+  products: ProductEntity[];
 }
