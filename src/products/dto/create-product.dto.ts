@@ -1,11 +1,37 @@
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsArray,
+  Length,
+} from 'class-validator';
 
 export class CreateProductDto {
-    title:string;
+  @IsNotEmpty()
+  @IsString()
+  title: string;
 
-    description:string;
+  @IsNotEmpty()
+  @IsString()
+  @Length(0,100)
+  description: string;
 
-    price:number;
+  @IsNotEmpty()
+  @IsString()
+  thumbnail: string;
 
-    stock:number;
+  @IsArray()
+  images: string[];
 
+  @IsNotEmpty()
+  @IsNumber()
+  price: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  stock: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  categoryById:number
 }

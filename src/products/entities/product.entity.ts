@@ -46,5 +46,5 @@ export class ProductEntity {
 
   @ManyToOne(() => CategoryEntity, (category) => category.products, { eager: true })
   @JoinColumn({ name: 'categoryId' })
-  category: CategoryEntity;
+  categoryId: CategoryEntity;
 }

@@ -10,7 +10,6 @@ import { CategoryEntity } from './entities/category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   FindOneOptions,
-  FindOptionsRelationByString,
   FindOptionsRelations,
   Repository,
 } from 'typeorm';
