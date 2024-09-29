@@ -9,6 +9,13 @@ import { ProductsModule } from './products/products.module';
 import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dataSourceOptions), UsersModule, AuthModule, CategoriesModule, ProductsModule, ReviewsModule],
+  imports: [
+    TypeOrmModule.forRoot(dataSourceOptions),
+    UsersModule,
+    AuthModule,
+    CategoriesModule,
+    ProductsModule,
+    ReviewsModule,
+  ],
 })
 export class AppModule {}

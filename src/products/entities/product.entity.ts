@@ -1,4 +1,5 @@
 import { CategoryEntity } from 'src/categories/entities/category.entity';
+import {  ReviewEntity } from 'src/reviews/entities/review.entity';
 import { UserEntity } from 'src/users/entities/user.entity';
 import {
   Column,
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
@@ -47,4 +49,7 @@ export class ProductEntity {
   @ManyToOne(() => CategoryEntity, (category) => category.products, { eager: true })
   @JoinColumn({ name: 'categoryId' })
   categoryId: CategoryEntity;
+
+  @OneToMany(() => ReviewEntity , (review) => review.product)
+  reviews:ReviewEntity[]
 }
