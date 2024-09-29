@@ -24,6 +24,10 @@ export class UserEntity {
   password: string;
   @Column({ type: 'enum', enum: Role, array: true, default: [Role.User] })
   roles: Role[];
+
+  @Column({ nullable: true })
+  image: string;
+
   @CreateDateColumn()
   createdAt: Timestamp;
   @UpdateDateColumn()
@@ -35,6 +39,6 @@ export class UserEntity {
   @OneToMany(() => ProductEntity, (product) => product.createdBy)
   products: ProductEntity[];
 
-  @OneToMany(() => ReviewEntity, (review) => review.product)
-  reviews: ReviewEntity;
+  @OneToMany(() => ReviewEntity, (review) => review.user)
+  reviews: ReviewEntity[];
 }

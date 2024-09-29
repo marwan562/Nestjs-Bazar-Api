@@ -21,18 +21,16 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  @Roles(Role.Admin , Role.Manager)
+  @Roles(Role.User, Role.Admin, Role.Manager)
   @UseGuards(RolesGuard)
   public async findAll() {
     return this.usersService.findAll();
   }
 
   @Get('me')
-  @Roles(Role.Admin, Role.Manager, Role.User)
+  @Roles(Role.User, Role.Admin, Role.Manager)
   @UseGuards(RolesGuard)
-  public async getProfile(@CurrentUser() currentUser:UserEntity) {
-    return currentUser 
+  public async getProfile(@CurrentUser() currentUser: UserEntity) {
+    return currentUser;
   }
-
-  
 }

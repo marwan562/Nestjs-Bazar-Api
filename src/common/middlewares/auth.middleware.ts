@@ -39,7 +39,6 @@ class AuthMiddleware implements NestMiddleware {
 
       const user = await this.userService.findById(id);
 
-
       if (!user) {
         return next(new ForbiddenException('User not found'));
       }

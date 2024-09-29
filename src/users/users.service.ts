@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsRelations, Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
@@ -16,7 +16,10 @@ export class UsersService {
     return this.userRepository.find({});
   }
 
-  async findById(id: number) {
-    return this.userRepository.findOne({ where: { id } });
+  async findById(id: number, relations?: FindOptionsRelations<UserEntity>) {
+    return this.userRepository.findOne({
+      where: { id },
+      relations,
+    });
   }
 }

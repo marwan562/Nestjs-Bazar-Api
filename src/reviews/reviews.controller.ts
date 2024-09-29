@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ReviewsService } from './reviews.service';
 import { CreateReviewDto } from './dto/create-review.dto';
@@ -24,7 +25,7 @@ export class ReviewsController {
   @Post()
   @Roles(Role.User, Role.Admin)
   @UseGuards(RolesGuard)
- public async create(
+  public async create(
     @Body() createReviewDto: CreateReviewDto,
     @CurrentUser() currentuser: UserEntity,
   ) {
@@ -33,19 +34,22 @@ export class ReviewsController {
 
   @Get()
   public async findAll() {
-    return await this.reviewsService.findAll();
+    return await this.reviewsService.findAll({ product: true, user: true });
   }
 
   @Get(':id')
-  public async  findOne(@Param('id') id: string) {
-    return await this.reviewsService.findOne(+id);
+  public async findOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.reviewsService.findOne(id, true);
   }
 
   @Patch(':id')
   @Roles(Role.User, Role.Admin)
   @UseGuards(RolesGuard)
-  public async update(@Param('id') id: string, @Body() updateReviewDto: UpdateReviewDto) {
-    return await this.reviewsService.update(+id, updateReviewDto);
+  public async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateReviewDto: UpdateReviewDto,
+  ) {
+    return await this.reviewsService.update(id, updateReviewDto);
   }
 
   @Delete(':id')
