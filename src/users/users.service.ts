@@ -12,8 +12,8 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  findAll() {
-    return this.userRepository.find({});
+  findAll( relations?: FindOptionsRelations<UserEntity>) {
+    return this.userRepository.find({relations});
   }
 
   async findById(id: number, relations?: FindOptionsRelations<UserEntity>) {

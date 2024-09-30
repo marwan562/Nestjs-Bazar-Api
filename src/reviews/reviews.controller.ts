@@ -34,12 +34,15 @@ export class ReviewsController {
 
   @Get()
   public async findAll() {
-    return await this.reviewsService.findAll({ product: true, user: true });
+    return await this.reviewsService.findAll({
+      product: { categoryId: true },
+      user: true,
+    });
   }
 
   @Get(':id')
   public async findOne(@Param('id', ParseIntPipe) id: number) {
-    return await this.reviewsService.findOne(id, true);
+    return await this.reviewsService.findOne(id, { user: true, product: true });
   }
 
   @Patch(':id')

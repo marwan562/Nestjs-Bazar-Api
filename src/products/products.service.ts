@@ -17,7 +17,7 @@ export class ProductsService {
     private readonly categoriesService: CategoriesService,
   ) {}
 
-  async findCategory(id: number) {
+  async findCategory(id: number): Promise<CategoryEntity> {
     return await this.categoriesService.findOne(id);
   }
 
@@ -26,16 +26,19 @@ export class ProductsService {
     currentUser: UserEntity,
   ): Promise<ProductEntity> {
     const category = await this.findCategory(createProductDto.categoryById);
+    
     const product = this.productRepository.create(createProductDto);
+    
     product.createdBy = currentUser;
-    product.categoryId = category;
+    product.categoryId = category; 
+    
     return await this.productRepository.save(product);
   }
 
   async findAll(
-    relations?: FindOptionsRelations<ProductEntity>,
+    relations?: FindOptionsRelations<ProductEntity>
   ): Promise<ProductEntity[]> {
-    return await this.productRepository.find({relations});
+    return await this.productRepository.find({ relations });
   }
 
   async findOne(
@@ -46,9 +49,11 @@ export class ProductsService {
       where: { id },
       relations,
     });
+    
     if (!product) {
       throw new NotFoundException(`Product with ID ${id} not found`);
     }
+    
     return product;
   }
 
@@ -57,13 +62,17 @@ export class ProductsService {
     updateProductDto: UpdateProductDto,
   ): Promise<ProductEntity> {
     const product = await this.findOne(id);
+    
     Object.assign(product, updateProductDto);
+    
     return await this.productRepository.save(product);
   }
 
   async remove(id: number): Promise<ProductEntity> {
     const product = await this.findOne(id);
+    
     await this.productRepository.remove(product);
+    
     return product;
   }
 }

@@ -24,7 +24,11 @@ export class UsersController {
   @Roles(Role.User, Role.Admin, Role.Manager)
   @UseGuards(RolesGuard)
   public async findAll() {
-    return this.usersService.findAll();
+    return this.usersService.findAll({
+      categories: true,
+      reviews: true,
+      products: true,
+    });
   }
 
   @Get('me')

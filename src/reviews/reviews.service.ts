@@ -4,7 +4,7 @@ import { UpdateReviewDto } from './dto/update-review.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ReviewEntity } from './entities/review.entity';
 import { UserEntity } from 'src/users/entities/user.entity';
-import { FindOptionsRelations, Repository } from 'typeorm';
+import { FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { ProductsService } from 'src/products/products.service';
 
 @Injectable()
@@ -14,7 +14,6 @@ export class ReviewsService {
     private readonly reviewRepository: Repository<ReviewEntity>,
     private readonly productsService: ProductsService,
   ) {}
-
   public async create(
     createReviewDto: CreateReviewDto,
     currentUser: UserEntity,
@@ -22,32 +21,42 @@ export class ReviewsService {
     const product = await this.productsService.findOne(
       createReviewDto.productId,
     );
+
     const review = this.reviewRepository.create({
       ...createReviewDto,
       product,
       user: currentUser,
     });
+
     return await this.reviewRepository.save(review);
   }
 
   public async findAll(
     relations?: FindOptionsRelations<ReviewEntity>,
+    where?: FindOptionsWhere<ReviewEntity>,
   ): Promise<ReviewEntity[]> {
-    const reviews = await this.reviewRepository.find({ relations });
+    const reviews = await this.reviewRepository.find({ relations, where });
+
     if (!reviews || reviews.length === 0) {
       throw new NotFoundException('Reviews not found');
     }
+
     return reviews;
   }
 
-  public async findOne(id: number, relations?: boolean): Promise<ReviewEntity> {
+  public async findOne(
+    id: number,
+    relations?: FindOptionsRelations<ReviewEntity>,
+  ): Promise<ReviewEntity> {
     const review = await this.reviewRepository.findOne({
       where: { id },
-      relations: { user: relations, product: relations },
+      relations,
     });
+
     if (!review) {
       throw new NotFoundException('Review not found');
     }
+
     return review;
   }
 
@@ -56,13 +65,17 @@ export class ReviewsService {
     updateReviewDto: UpdateReviewDto,
   ): Promise<ReviewEntity> {
     const review = await this.findOne(id);
+
     Object.assign(review, updateReviewDto);
+
     return await this.reviewRepository.save(review);
   }
 
   public async remove(id: number): Promise<ReviewEntity> {
     const review = await this.findOne(id);
+
     await this.reviewRepository.delete(id);
+
     return review;
   }
 }
